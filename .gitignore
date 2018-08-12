@@ -1,0 +1,7 @@
+*.pyc
+.DS_Store
+*.swp
+*.vscode
+/media/
+/tmp/
+db.sqlite3
