@@ -1,8 +1,12 @@
 {% extends "base.html" %}
 
-{% load wagtailcore_tags %}
+{% load static wagtailcore_tags %}
 
 {% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/xiab-exercises.css' %}">
+{% endblock %}
 
 {% block content %}
     <div class="jumbotron">
@@ -15,11 +19,32 @@
 
     {% verbatim %}
         <div id="exercise-app" class="container">
-            <div v-for="question in questions" v-html="question"></div>
+            <h2>Question</h2>
+
+            <div v-html="questions[questionIndex].questionText"></div>
+            <input v-model="questions[questionIndex].userAnswer">
+
+            <button class="btn btn-success" v-on:click="checkAnswer()" :disabled="questions[questionIndex].userAnswer === ''">
+                Submit
+            </button>
+
+            <span class="question-result success" v-if="questions[questionIndex].result === true">
+                &#10003;
+            </span>
+            <span class="question-result failure" v-if="questions[questionIndex].result === false">
+                &times;
+            </span>
+
+            <div class="row">
+                <button class="btn btn-primary" v-on:click="questionIndex--" :disabled="questionIndex === 0">
+                    Previous question
+                </button>
+                <button class="btn btn-primary" v-on:click="questionIndex++" :disabled="questionIndex === questions.length - 1">
+                    Next question
+                </button>
+            </div>
         </div>
     {% endverbatim %}
-
-
 
     <div class="container">
         <div class="row">
@@ -44,18 +69,15 @@
     <script type="text/javascript">
         var questions = [
             {% for question in page.questions.all %}
-                '{{ question.question|richtext }}',
+                {
+                    questionText: '{{ question.question|richtext }}',
+                    answer: '{{ question.answer }}',
+                    userAnswer: "",
+                    result: null,
+                },
             {% endfor %}
         ];
     </script>
 
-    <script type="text/javascript">
-        var vm = new Vue({
-            el: '#exercise-app',
-            data: {
-                questionIndex: 0,
-                questions: questions
-            }
-        });
-    </script>
+    <script type="text/javascript" src="{% static 'js/xiab-exercises.js' %}"></script>
 {% endblock %}

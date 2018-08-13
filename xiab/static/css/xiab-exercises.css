@@ -1,0 +1,11 @@
+.question-result {
+    font-size: 1.6rem;
+}
+
+.question-result.success {
+    color: green;
+}
+
+.question-result.failure {
+    color: red;
+}
