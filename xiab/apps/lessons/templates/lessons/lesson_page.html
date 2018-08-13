@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>{{page.title}}</h1>
+            <p><a href="{{ page.get_parent.url }}">{{ page.get_parent }}</a></p>
+        </div>
+    </div>
+
+    <div class="container">
+        {{ page.summary|richtext }}
+    </div>
+
+    <div class="container">
+        <div class="row">
+            {% if prev_lesson %}
+                <a href="{{ prev_lesson.url }}">
+                    <span class="navigation-name">&lt; {{ prev_lesson }}</span>
+                </a>
+            {% endif %}
+
+            {% if next_lesson %}
+                <a href="{{ next_lesson.url }}">
+                    <span class="navigation-name">{{ next_lesson }} &gt;</span>
+                </a>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock %}

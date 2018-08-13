@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'xiab.search',
     'xiab.apps.home',
     'xiab.apps.subjects',
+    'xiab.apps.lessons',
     'xiab.apps.exercises',
 
     'wagtail.contrib.forms',
