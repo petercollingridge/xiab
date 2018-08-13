@@ -32,3 +32,9 @@ class ExercisePage(Page):
         InlinePanel('questions', label="Questions"),
     ]
 
+    def get_context(self, request):
+        context = super(ExercisePage, self).get_context(request)
+        context["prev_lesson"] = self.get_prev_siblings().live().first()
+        context["next_lesson"] = self.get_next_siblings().live().first()
+        print(context)
+        return context

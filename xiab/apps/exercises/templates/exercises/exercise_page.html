@@ -8,20 +8,26 @@
     <div class="jumbotron">
         <div class="container">
             <h1>{{page.title}}</h1>
-            {{ page.body|richtext }}
+            {{ page.summary|richtext }}
+            <p><a href="{{ page.get_parent.url }}">{{ page.get_parent }}</a></p>
         </div>
     </div>
 
     <div class="container">
-        <div class="row">
-            {% for child in children %}
-                <div class="col-md-4">
-                    <h2>{{ child.title }}</h2>
-                    {{ child.specific.summary|richtext }}
-                    <p><a class="btn btn-secondary" href="{% pageurl child %}" role="button">View details &raquo;</a></p>
-                </div>
-            {% endfor %}
-        </div>
+    <div class="row">
+        {% if prev_lesson %}
+            <a href="{{ prev_lesson.url }}">
+                <span class="navigation-name">&lt; {{ prev_lesson }}</span>
+            </a>
+        {% endif %}
+
+        {% if next_lesson %}
+            <a href="{{ next_lesson.url }}">
+                <span class="navigation-name">{{ next_lesson }} &gt;</span>
+            </a>
+        {% endif %}
+    </div>
+
     </div>
 
 {% endblock %}
