@@ -5,7 +5,7 @@ from wagtail.core.fields import RichTextField
 from wagtail.admin.edit_handlers import FieldPanel
 
 
-class LessonPage(Page):
+class TopicPage(Page):
     summary = RichTextField(blank=True)
 
     content_panels = Page.content_panels + [

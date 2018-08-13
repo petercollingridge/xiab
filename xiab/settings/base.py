@@ -26,7 +26,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'xiab.search',
     'xiab.apps.home',
-    'xiab.apps.lessons',
+    'xiab.apps.subjects',
     'xiab.apps.exercises',
 
     'wagtail.contrib.forms',
