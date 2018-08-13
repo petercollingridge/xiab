@@ -13,21 +13,49 @@
         </div>
     </div>
 
+    {% verbatim %}
+        <div id="exercise-app" class="container">
+            <div v-for="question in questions" v-html="question"></div>
+        </div>
+    {% endverbatim %}
+
+
+
     <div class="container">
-    <div class="row">
-        {% if prev_lesson %}
-            <a href="{{ prev_lesson.url }}">
-                <span class="navigation-name">&lt; {{ prev_lesson }}</span>
-            </a>
-        {% endif %}
+        <div class="row">
+            {% if prev_lesson %}
+                <a href="{{ prev_lesson.url }}">
+                    <span class="navigation-name">&lt; {{ prev_lesson }}</span>
+                </a>
+            {% endif %}
 
-        {% if next_lesson %}
-            <a href="{{ next_lesson.url }}">
-                <span class="navigation-name">{{ next_lesson }} &gt;</span>
-            </a>
-        {% endif %}
+            {% if next_lesson %}
+                <a href="{{ next_lesson.url }}">
+                    <span class="navigation-name">{{ next_lesson }} &gt;</span>
+                </a>
+            {% endif %}
+        </div>
     </div>
+{% endblock %}
 
-    </div>
+{% block extra_js %}
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
 
+    <script type="text/javascript">
+        var questions = [
+            {% for question in page.questions.all %}
+                '{{ question.question|richtext }}',
+            {% endfor %}
+        ];
+    </script>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#exercise-app',
+            data: {
+                questionIndex: 0,
+                questions: questions
+            }
+        });
+    </script>
 {% endblock %}
