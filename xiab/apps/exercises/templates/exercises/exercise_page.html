@@ -18,30 +18,46 @@
     </div>
 
     {% verbatim %}
-        <div id="exercise-app" class="container">
-            <h2>Question</h2>
+        <div class="container">
+            <div id="exercise-app" class="card" v-cloak>
+                <div class="card-header">
+                    Question {{ questionIndex + 1 }} of {{ questions.length }}.
+                    <span class="question-result success" v-if="currentQuestion.result === true">&#10003;</span>
+                    <span class="question-result failure" v-if="currentQuestion.result === false">&times;</span>
+                </div>
 
-            <div v-html="questions[questionIndex].questionText"></div>
-            <input v-model="questions[questionIndex].userAnswer">
+                <div class="card-body">
+                    <div class="card-text" v-html="currentQuestion.text"></div>
 
-            <button class="btn btn-success" v-on:click="checkAnswer()" :disabled="questions[questionIndex].userAnswer === ''">
-                Submit
-            </button>
+                    <div v-if="currentQuestion.type === 'numeric'">
+                        <input v-model="currentQuestion.userAnswer">
+                    </div>
 
-            <span class="question-result success" v-if="questions[questionIndex].result === true">
-                &#10003;
-            </span>
-            <span class="question-result failure" v-if="questions[questionIndex].result === false">
-                &times;
-            </span>
+                    <div v-else-if="currentQuestion.type === 'multiple_choice'">
+                        <fieldset>
+                            <div v-for="option, index in currentQuestion.options">
+                                <input type="radio" v-model="currentQuestion.userAnswer" :value="index" />
+                                <label :for="option">{{ option }}</label>
+                            </div>
+                        </fieldset>
+                    </div>
 
-            <div class="row">
-                <button class="btn btn-primary" v-on:click="questionIndex--" :disabled="questionIndex === 0">
-                    Previous question
-                </button>
-                <button class="btn btn-primary" v-on:click="questionIndex++" :disabled="questionIndex === questions.length - 1">
-                    Next question
-                </button>
+                    <button class="btn btn-success" v-on:click="checkAnswer()" :disabled="disableSubmission()">
+                        Submit
+                    </button>
+                </div>
+
+                <div class="card-footer">
+                    <div class="btn-group" role="group" aria-label="Navigation buttons">
+                        <button class="btn btn-primary" v-on:click="changeQuestion(-1)" :disabled="questionIndex === 0">
+                            Previous question
+                        </button>
+                        <button class="btn btn-primary" v-on:click="changeQuestion(1)" :disabled="questionIndex === questions.length - 1">
+                            Next question
+                        </button>
+                    </div>
+                </div>
+
             </div>
         </div>
     {% endverbatim %}
@@ -70,9 +86,20 @@
         var questions = [
             {% for question in page.questions %}
                 {
-                    questionText: '{{ question.value.question|richtext }}',
-                    answer: '{{ question.value.answer }}',
-                    userAnswer: "",
+                    type: '{{ question.block_type }}',
+                    text: '{{ question.value.question|richtext }}',
+
+                    {% if question.block_type == 'numeric' %}
+                        answer: {{ question.value.answer }},
+                    {% elif question.block_type == 'multiple_choice' %}
+                        options: [
+                            {% for answer in question.value.answers %}
+                                '{{ answer }}',
+                            {% endfor %}
+                        ],
+                        answer: {{ question.value.correct_answer }},
+                    {% endif %}
+                    userAnswer: null,
                     result: null,
                 },
             {% endfor %}

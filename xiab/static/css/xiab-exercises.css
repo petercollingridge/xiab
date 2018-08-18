@@ -9,3 +9,7 @@
 .question-result.failure {
     color: red;
 }
+
+[v-cloak] {
+    display: none;
+}

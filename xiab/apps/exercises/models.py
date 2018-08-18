@@ -8,6 +8,18 @@ from wagtail.core.fields import RichTextField, StreamField
 from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 
 
+class MultipleChoiceQuestionBlock(blocks.StructBlock):
+    """ A multiple choice question. """
+
+    question = blocks.RichTextBlock()
+    answers = blocks.ListBlock(blocks.CharBlock(label="Answer choice"))
+    correct_answer = blocks.IntegerBlock(required=True, help_text="Index of the correct answer (starting at 0)")
+
+    class Meta:
+        icon = 'list-ul'
+        label = 'Multiple choice'
+
+
 class NumericQuestionBlock(blocks.StructBlock):
     """ A question that expects an numeric answer. """
     
@@ -16,7 +28,7 @@ class NumericQuestionBlock(blocks.StructBlock):
 
     class Meta:
         icon = 'help'
-        label = 'Numeric Question'
+        label = 'Numeric'
 
 
 class ExercisePage(Page):
@@ -25,7 +37,8 @@ class ExercisePage(Page):
     summary = RichTextField(blank=True)
 
     questions = StreamField([
-        ('numeric_question', NumericQuestionBlock()),
+        ('numeric', NumericQuestionBlock()),
+        ('multiple_choice', MultipleChoiceQuestionBlock()),
     ])
 
     content_panels = Page.content_panels + [
