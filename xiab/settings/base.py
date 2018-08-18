@@ -26,6 +26,7 @@ BASE_DIR = os.path.dirname(PROJECT_DIR)
 INSTALLED_APPS = [
     'xiab.search',
     'xiab.apps.home',
+    'xiab.apps.users',
     'xiab.apps.subjects',
     'xiab.apps.lessons',
     'xiab.apps.exercises',

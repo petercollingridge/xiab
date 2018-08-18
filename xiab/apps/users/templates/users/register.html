@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block body_class %}template-homepage{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Register</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if registered %}
+            <p>Thank you for registering.</p>
+        {% else %}
+            <h2>Sign up</h2>
+            <form id="user_form" method="post" action="/register/" enctype="multipart/form-data">
+                {% csrf_token %}
+
+                {{ user_form.as_p }}
+                {{ profile_form.as_p }}
+
+                <input type="submit" name="submit" value="Register" />
+            </form>
+        {% endif %}
+    </div>
+
+{% endblock %}
