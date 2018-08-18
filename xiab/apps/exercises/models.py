@@ -2,39 +2,39 @@ from django.db import models
 
 from modelcluster.fields import ParentalKey
 
-from wagtail.core.models import Page, Orderable
-from wagtail.core.fields import RichTextField
-from wagtail.admin.edit_handlers import FieldPanel, InlinePanel, PageChooserPanel
+from wagtail.core import blocks
+from wagtail.core.models import Page
+from wagtail.core.fields import RichTextField, StreamField
+from wagtail.admin.edit_handlers import FieldPanel, StreamFieldPanel
 
 
-class Question(models.Model):
-    question = RichTextField()
-    answer = models.CharField(max_length=255)
-
-    panels = [
-        FieldPanel('question'),
-        FieldPanel('answer'),
-    ]
+class NumericQuestionBlock(blocks.StructBlock):
+    """ A question that expects an numeric answer. """
+    
+    question = blocks.RichTextBlock()
+    answer = blocks.FloatBlock()
 
     class Meta:
-        abstract = True
-
-
-class ExercisePageQuestions(Orderable, Question):
-    page = ParentalKey('ExercisePage', on_delete=models.CASCADE, related_name='questions')
+        icon = 'help'
+        label = 'Numeric Question'
 
 
 class ExercisePage(Page):
+    """Uses a streamfield to build a series of questions."""
+
     summary = RichTextField(blank=True)
+
+    questions = StreamField([
+        ('numeric_question', NumericQuestionBlock()),
+    ])
 
     content_panels = Page.content_panels + [
         FieldPanel('summary'),
-        InlinePanel('questions', label="Questions"),
+        StreamFieldPanel('questions'),
     ]
 
     def get_context(self, request):
         context = super(ExercisePage, self).get_context(request)
         context["prev_lesson"] = self.get_prev_siblings().live().first()
         context["next_lesson"] = self.get_next_siblings().live().first()
-        print(context)
         return context

@@ -68,10 +68,10 @@
 
     <script type="text/javascript">
         var questions = [
-            {% for question in page.questions.all %}
+            {% for question in page.questions %}
                 {
-                    questionText: '{{ question.question|richtext }}',
-                    answer: '{{ question.answer }}',
+                    questionText: '{{ question.value.question|richtext }}',
+                    answer: '{{ question.value.answer }}',
                     userAnswer: "",
                     result: null,
                 },
