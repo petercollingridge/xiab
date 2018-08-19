@@ -11,23 +11,19 @@ from xiab.apps.users import views as user_views
 
 urlpatterns = [
     url(r'^django-admin/', admin.site.urls),
-
     url(r'^admin/', include(wagtailadmin_urls)),
     url(r'^documents/', include(wagtaildocs_urls)),
-
     url(r'^search/$', search_views.search, name='search'),
 
-    url(r'^users/$', user_views.index, name='index'),
-    url(r'^register/$', user_views.register, name='register'),
+    url(r'^profile/$', user_views.profile, name='profile'),
+    url(r'^sign-up/$', user_views.register, name='sign-up'),
+    url(r'^logout/$', user_views.user_logout, name='logout'),
+    url(r'^login/$', user_views.user_login, name='login'),
 
     # For anything not caught by a more specific rule above, hand over to
     # Wagtail's page serving mechanism. This should be the last pattern in
     # the list:
     url(r'', include(wagtail_urls)),
-
-    # Alternatively, if you want Wagtail pages to be served from a subpath
-    # of your site, rather than the site root:
-    #    url(r'^pages/', include(wagtail_urls)),
 ]
 
 

@@ -2,28 +2,45 @@
 
 {% load wagtailcore_tags %}
 
-{% block body_class %}template-homepage{% endblock %}
+{% block title %}Sign up{% endblock %}
+{% block body_class %}template-resgister{% endblock %}
 
 {% block content %}
     <div class="jumbotron">
         <div class="container">
-            <h1>Register</h1>
+            <h1>Sign up</h1>
         </div>
     </div>
 
     <div class="container">
-        {% if registered %}
-            <p>Thank you for registering.</p>
-        {% else %}
-            <h2>Sign up</h2>
-            <form id="user_form" method="post" action="/register/" enctype="multipart/form-data">
+        {% if not user.is_authenticated %}
+            <form role="form" method="post" action=".">
                 {% csrf_token %}
+                
+                <div class="form-group">
+                    <p class="required">
+                        <label for="id_username">Username:</label>
+                        <input class="form-control" id="id_username" maxlength="30" name="username" type="text" placeholder="Enter username">
+                    </p>
+                </div>
 
-                {{ user_form.as_p }}
-                {{ profile_form.as_p }}
+                <div class="form-group">
+                    <p class="required">
+                        <label for="id_email">Email:</label>
+                        <input class="form-control" id="id_email" name="email" type="email" placeholder="Enter email">
+                    </p>
+                </div>
 
-                <input type="submit" name="submit" value="Register" />
+                <div class="form-group">
+                    <p class="required">
+                        <label for="id_password">Password:</label>
+                        <input class="form-control" id="id_password" name="password" type="password" placeholder="Enter password">
+                    </p>
+                </div>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </form>
+        {% else %}
+            <p>You are already signed in.</p>
         {% endif %}
     </div>
 

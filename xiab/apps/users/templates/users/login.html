@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block title %}Sign up{% endblock %}
+{% block body_class %}template-resgister{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Login</h1>
+        </div>
+    </div>
+
+    <div class="container text-center">
+        <form class="form-signin" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+
+            <label for="username" class="sr-only">Username</label>
+            <input id="username" class="form-control" name="username" placeholder="username" required autofocus>
+
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" class="form-control" name="password" placeholder="password" required>
+
+            <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+        </form>
+    </div>
+{% endblock %}

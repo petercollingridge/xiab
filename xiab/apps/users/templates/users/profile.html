@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load wagtailcore_tags %}
+
+{% block title %}Profile{% endblock %}
+{% block body_class %}template-profile{% endblock %}
+
+{% block content %}
+    <div class="jumbotron">
+        <div class="container">
+            <h1>Profile</h1>
+        </div>
+    </div>
+
+    <div class="container">
+        {% if user.is_authenticated %}
+            <p>
+                You are logged in as {{ user.username }}.
+                <a href="{% url 'logout' %}?next=/">Log out</a>
+            </p>
+        {% else %}
+            <p>
+                You are not logged in.
+                <a href="{% url 'login' %}?next=/">Login</a>
+            </p>
+        {% endif %}
+
+        <h2>Change password</h2>
+        <p>You can change your password <a href="/accounts/password/change">here</a>.</p>
+    </div>
+{% endblock %}

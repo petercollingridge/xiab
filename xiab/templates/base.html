@@ -10,12 +10,12 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <title>
             {% block title %}
-            {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
+                {% if self.seo_title %}{{ self.seo_title }}{% else %}{{ self.title }}{% endif %}
             {% endblock %}
             {% block title_suffix %}
-            {% with self.get_site.site_name as site_name %}
-            {% if site_name %}- {{ site_name }}{% endif %}
-            {% endwith %}
+                {% with self.get_site.site_name as site_name %}
+                    {% if site_name %}- {{ site_name }}{% endif %}
+                {% endwith %}
             {% endblock %}
         </title>
         <meta name="description" content="" />
@@ -33,12 +33,34 @@
     <body class="{% block body_class %}{% endblock %}">
         {% wagtailuserbar %}
 
+        <nav>
+            <ul class="nav justify-content-end">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log out</a>
+                    </li>
+                {% else %}
+                <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'sign-up' %}">Sign-up</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+
         <main role="main">
             {% block content %}{% endblock %}
         </main>
 
-        <footer class="container">
-            <p>&copy; Company 2017</p>
+        <footer class="footer">
+            <div class="container">
+                <span class="text-muted">&copy; Company 2017</span>
+            </div>
         </footer>
 
         {# Global javascript #}
