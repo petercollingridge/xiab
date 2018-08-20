@@ -53,6 +53,12 @@
             </ul>
         </nav>
 
+        <header class="jumbotron">
+            <div class="container">
+                {% block header %}{% endblock %}
+            </div>
+        </header>
+
         <main role="main">
             {% block content %}{% endblock %}
         </main>

@@ -2,16 +2,14 @@
 
 {% load wagtailcore_tags %}
 
-{% block title %}Sign up{% endblock %}
+{% block title %}Login{% endblock %}
 {% block body_class %}template-resgister{% endblock %}
 
-{% block content %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>Login</h1>
-        </div>
-    </div>
+{% block header %}
+    <h1>Login</h1>
+{% endblock %}
 
+{% block content %}
     <div class="container text-center">
         <form class="form-signin" method="post" action="{% url 'login' %}">
             {% csrf_token %}

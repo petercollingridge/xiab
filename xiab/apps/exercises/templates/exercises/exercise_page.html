@@ -8,15 +8,13 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/xiab-exercises.css' %}">
 {% endblock %}
 
-{% block content %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>{{page.title}}</h1>
-            {{ page.summary|richtext }}
-            <p><a href="{{ page.get_parent.url }}">{{ page.get_parent }}</a></p>
-        </div>
-    </div>
+{% block header %}
+    <p><a href="{{ page.get_parent.url }}">{{ page.get_parent }}</a></p>
+    <h1>{{page.title}}</h1>
+    {{ page.summary|richtext }}
+{% endblock %}
 
+{% block content %}
     {% verbatim %}
         <div class="container">
             <div id="exercise-app" class="card" v-cloak>

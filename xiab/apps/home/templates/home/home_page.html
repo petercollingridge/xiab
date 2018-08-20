@@ -4,14 +4,13 @@
 
 {% block body_class %}template-homepage{% endblock %}
 
-{% block content %}
-    <div class="jumbotron">
-        <div class="container">
-            <h1>{{page.title}}</h1>
-            {{ page.summary|richtext }}
-        </div>
-    </div>
+{% block header %}
+    <h1>{{page.title}}</h1>
+    {{ page.summary|richtext }}
+    <div><a href="/">Home</a></div>
+{% endblock %}
 
+{% block content %}
     <div class="container">
         <div class="row">
             {% for child in children %}
@@ -23,5 +22,4 @@
             {% endfor %}
         </div>
     </div>
-
 {% endblock %}
