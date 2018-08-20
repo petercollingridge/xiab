@@ -34,7 +34,10 @@
         {% wagtailuserbar %}
 
         <nav>
-            <ul class="nav justify-content-end">
+            <ul class="nav navbar-dark bg-dark justify-content-end">
+                <li class="nav-item mr-auto">
+                    <a class="nav-link navbar-brand" href="/">Home</a>
+                </li>
                 {% if user.is_authenticated %}
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
